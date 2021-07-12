@@ -153,12 +153,12 @@ abstract class SwitchThemeEvent extends ThemeEvent {
 class _$ThemeStateTearOff {
   const _$ThemeStateTearOff();
 
-  DarkThemeState dark() {
-    return const DarkThemeState();
-  }
-
   LightThemeState light() {
     return const LightThemeState();
+  }
+
+  DarkThemeState dark() {
+    return const DarkThemeState();
   }
 }
 
@@ -169,27 +169,27 @@ const $ThemeState = _$ThemeStateTearOff();
 mixin _$ThemeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() dark,
     required TResult Function() light,
+    required TResult Function() dark,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? dark,
     TResult Function()? light,
+    TResult Function()? dark,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(DarkThemeState value) dark,
     required TResult Function(LightThemeState value) light,
+    required TResult Function(DarkThemeState value) dark,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(DarkThemeState value)? dark,
     TResult Function(LightThemeState value)? light,
+    TResult Function(DarkThemeState value)? dark,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -209,92 +209,6 @@ class _$ThemeStateCopyWithImpl<$Res> implements $ThemeStateCopyWith<$Res> {
   final ThemeState _value;
   // ignore: unused_field
   final $Res Function(ThemeState) _then;
-}
-
-/// @nodoc
-abstract class $DarkThemeStateCopyWith<$Res> {
-  factory $DarkThemeStateCopyWith(
-          DarkThemeState value, $Res Function(DarkThemeState) then) =
-      _$DarkThemeStateCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class _$DarkThemeStateCopyWithImpl<$Res> extends _$ThemeStateCopyWithImpl<$Res>
-    implements $DarkThemeStateCopyWith<$Res> {
-  _$DarkThemeStateCopyWithImpl(
-      DarkThemeState _value, $Res Function(DarkThemeState) _then)
-      : super(_value, (v) => _then(v as DarkThemeState));
-
-  @override
-  DarkThemeState get _value => super._value as DarkThemeState;
-}
-
-/// @nodoc
-
-class _$DarkThemeState extends DarkThemeState {
-  const _$DarkThemeState() : super._();
-
-  @override
-  String toString() {
-    return 'ThemeState.dark()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is DarkThemeState);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() dark,
-    required TResult Function() light,
-  }) {
-    return dark();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? dark,
-    TResult Function()? light,
-    required TResult orElse(),
-  }) {
-    if (dark != null) {
-      return dark();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(DarkThemeState value) dark,
-    required TResult Function(LightThemeState value) light,
-  }) {
-    return dark(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(DarkThemeState value)? dark,
-    TResult Function(LightThemeState value)? light,
-    required TResult orElse(),
-  }) {
-    if (dark != null) {
-      return dark(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class DarkThemeState extends ThemeState {
-  const factory DarkThemeState() = _$DarkThemeState;
-  const DarkThemeState._() : super._();
 }
 
 /// @nodoc
@@ -336,8 +250,8 @@ class _$LightThemeState extends LightThemeState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() dark,
     required TResult Function() light,
+    required TResult Function() dark,
   }) {
     return light();
   }
@@ -345,8 +259,8 @@ class _$LightThemeState extends LightThemeState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? dark,
     TResult Function()? light,
+    TResult Function()? dark,
     required TResult orElse(),
   }) {
     if (light != null) {
@@ -358,8 +272,8 @@ class _$LightThemeState extends LightThemeState {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(DarkThemeState value) dark,
     required TResult Function(LightThemeState value) light,
+    required TResult Function(DarkThemeState value) dark,
   }) {
     return light(this);
   }
@@ -367,8 +281,8 @@ class _$LightThemeState extends LightThemeState {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(DarkThemeState value)? dark,
     TResult Function(LightThemeState value)? light,
+    TResult Function(DarkThemeState value)? dark,
     required TResult orElse(),
   }) {
     if (light != null) {
@@ -381,4 +295,90 @@ class _$LightThemeState extends LightThemeState {
 abstract class LightThemeState extends ThemeState {
   const factory LightThemeState() = _$LightThemeState;
   const LightThemeState._() : super._();
+}
+
+/// @nodoc
+abstract class $DarkThemeStateCopyWith<$Res> {
+  factory $DarkThemeStateCopyWith(
+          DarkThemeState value, $Res Function(DarkThemeState) then) =
+      _$DarkThemeStateCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$DarkThemeStateCopyWithImpl<$Res> extends _$ThemeStateCopyWithImpl<$Res>
+    implements $DarkThemeStateCopyWith<$Res> {
+  _$DarkThemeStateCopyWithImpl(
+      DarkThemeState _value, $Res Function(DarkThemeState) _then)
+      : super(_value, (v) => _then(v as DarkThemeState));
+
+  @override
+  DarkThemeState get _value => super._value as DarkThemeState;
+}
+
+/// @nodoc
+
+class _$DarkThemeState extends DarkThemeState {
+  const _$DarkThemeState() : super._();
+
+  @override
+  String toString() {
+    return 'ThemeState.dark()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is DarkThemeState);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() light,
+    required TResult Function() dark,
+  }) {
+    return dark();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? light,
+    TResult Function()? dark,
+    required TResult orElse(),
+  }) {
+    if (dark != null) {
+      return dark();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LightThemeState value) light,
+    required TResult Function(DarkThemeState value) dark,
+  }) {
+    return dark(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LightThemeState value)? light,
+    TResult Function(DarkThemeState value)? dark,
+    required TResult orElse(),
+  }) {
+    if (dark != null) {
+      return dark(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DarkThemeState extends ThemeState {
+  const factory DarkThemeState() = _$DarkThemeState;
+  const DarkThemeState._() : super._();
 }

@@ -1,6 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 part 'theme_bloc.freezed.dart';
 
@@ -15,29 +14,38 @@ abstract class ThemeEvent with _$ThemeEvent {
 abstract class ThemeState with _$ThemeState {
   const ThemeState._();
 
-  const factory ThemeState.dark() = DarkThemeState;
   const factory ThemeState.light() = LightThemeState;
+  const factory ThemeState.dark() = DarkThemeState;
 }
 
-class ThemeBLoC extends Bloc<ThemeEvent, ThemeState> {
-  ThemeBLoC(this._prefs) :
-        this._themeIsLight = _prefs.getBool('themeIsLight') ?? true,
-        super((_prefs.getBool('themeIsLight') ?? true) ? const ThemeState.light() : const ThemeState.dark());
+class ThemeBLoC extends HydratedBloc<ThemeEvent, ThemeState> {
+  ThemeBLoC() : super(const DarkThemeState());
 
-  SharedPreferences _prefs;
-  bool _themeIsLight;
+  //@override
+  //ThemeState get initialState => super.initialState ?? ThemeState.dark();
 
   @override
   Stream<ThemeState> mapEventToState(ThemeEvent event) =>
-      event.when<Stream<ThemeState>>(
-        switchTheme: _switchTheme,
-      );
+    event.when<Stream<ThemeState>>(
+      switchTheme: _switchTheme,
+    );
 
   Stream<ThemeState> _switchTheme() async* {
-    _themeIsLight = !_themeIsLight;
+    if (super.state is DarkThemeState) yield const LightThemeState();
+    else if (super.state is LightThemeState) yield const DarkThemeState();
+  }
 
-    await _prefs.setBool('themeIsLight', _themeIsLight);
+  @override
+  ThemeState fromJson(Map<String, dynamic> json) {
+    if (json['themeIsDark'] as bool) {
+      return DarkThemeState();
+    } else {
+      return LightThemeState();
+    }
+  }
 
-    yield _themeIsLight ? const LightThemeState() : const DarkThemeState();
+  @override
+  Map<String, dynamic> toJson(ThemeState state) {
+    return {'themeIsDark': state is DarkThemeState};
   }
 }
