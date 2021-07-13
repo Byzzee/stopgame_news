@@ -22,7 +22,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     portraitModeOnly();
-    
+
     return MultiBlocProvider(
       providers: [
         BlocProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),

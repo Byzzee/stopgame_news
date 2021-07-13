@@ -13,8 +13,8 @@ class AppBottomNavigationBar extends StatelessWidget {
     ThemeState themeState  = context.watch<ThemeBLoC>().state;
     Color mainColor;
 
-    if (themeState is LightThemeState) mainColor = Colors.black.withOpacity(0.4);
-    else mainColor = Colors.white.withOpacity(0.4);
+    if (themeState is LightThemeState) mainColor = Colors.black.withOpacity(0.6);
+    else mainColor = Colors.white.withOpacity(0.6);
 
     return Stack(
       alignment: AlignmentDirectional.topCenter,
@@ -30,14 +30,16 @@ class AppBottomNavigationBar extends StatelessWidget {
                 NavigationButton(
                   index: 1,
                   text: 'Новости',
-                  icon: CupertinoIcons.news_solid,
-                  color: mainColor
+                  color: mainColor,
+                  inactiveIcon: CupertinoIcons.news,
+                  activeIcon: CupertinoIcons.news_solid,
                 ),
                 NavigationButton(
                   index: 2,
                   text: 'Настройки',
-                  icon: CupertinoIcons.gear_solid,
-                  color: mainColor
+                  color: mainColor,
+                  inactiveIcon: CupertinoIcons.gear,
+                  activeIcon: CupertinoIcons.gear_solid,
                 ),
               ],
             ),

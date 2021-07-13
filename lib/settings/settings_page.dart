@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stopgame_news/constants.dart';
 import '../theme_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -8,13 +9,112 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: ElevatedButton(
-          onPressed: () => context.read<ThemeBLoC>().add(ThemeEvent.switchTheme()),
-          child: Text('Сменить тему'),
-        )
+    final double _width = MediaQuery.of(context).size.width;
+    ThemeState _themeState  = context.watch<ThemeBLoC>().state;
+    Color _mainColor;
+
+    if (_themeState is LightThemeState) _mainColor = Colors.black.withOpacity(0.6);
+    else _mainColor = Colors.white.withOpacity(0.6);
+    
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(_width * 0.05),
+        child: Column(
+          children: [
+            _AppInfo(mainColor: _mainColor),
+            _ThemeSwitch(mainColor: _mainColor)
+          ]
+        ),
       ),
     );
   }
 }
+
+class _AppInfo extends StatelessWidget {
+  const _AppInfo({Key? key, @required this.mainColor}) : super(key: key);
+
+  final Color? mainColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Flexible(
+          flex: 1,
+          child: Image(image: AssetImage('assets/logo.png'))
+        ),
+        Flexible(
+          flex: 2,
+          child: Text(
+            'Stopgame News',
+            style: TextStyle(
+              color: mainColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              letterSpacing: 0.8
+            ),
+          )
+        )
+      ],
+    );
+  }
+}
+
+class _ThemeSwitch extends StatelessWidget {
+  const _ThemeSwitch({Key? key, @required this.mainColor}) : super(key: key);
+
+  final Color? mainColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return _SettingsItem(
+      icon: CupertinoIcons.moon,
+      text: 'Тёмная тема',
+      action: Switch(
+        value: context.watch<ThemeBLoC>().state is DarkThemeState,
+        activeColor: redStopgameColor,
+        onChanged: (value) {
+          context.read<ThemeBLoC>().add(ThemeEvent.switchTheme());
+        },
+      ),
+      mainColor: mainColor,
+    );
+  }
+}
+
+class _SettingsItem extends StatelessWidget {
+  const _SettingsItem({Key? key, @required this.icon, @required this.text, @required this.action,
+    @required this.mainColor}) : super(key: key);
+
+  final IconData? icon;
+  final String? text;
+  final Widget? action;
+  final Color? mainColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(
+          icon,
+          color: mainColor,
+        ),
+        Text(
+          text ?? '',
+          style: TextStyle(
+            color: mainColor,
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+            letterSpacing: 0.8
+          ),
+        ),
+        action ?? SizedBox(width: 1, height: 1)
+      ]
+    );
+  }
+}
+
+
+
