@@ -22,6 +22,7 @@ class SettingsPage extends StatelessWidget {
         child: Column(
           children: [
             _AppInfo(mainColor: _mainColor),
+            _Divider(color: _mainColor),
             _ThemeSwitch(mainColor: _mainColor)
           ]
         ),
@@ -46,14 +47,33 @@ class _AppInfo extends StatelessWidget {
         ),
         Flexible(
           flex: 2,
-          child: Text(
-            'Stopgame News',
-            style: TextStyle(
-              color: mainColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              letterSpacing: 0.8
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Stopgame News',
+                style: TextStyle(
+                  color: mainColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  letterSpacing: 0.8
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                //TODO: Сделать настоящее отображение версии
+                'Версия - 1.0.0',
+                style: TextStyle(
+                  color: mainColor,
+                  fontSize: 16,
+                  letterSpacing: 0.8
+                ),
+              ),
+            ],
           )
         )
       ],
@@ -116,5 +136,23 @@ class _SettingsItem extends StatelessWidget {
   }
 }
 
+class _Divider extends StatelessWidget {
+  const _Divider({Key? key, @required this.color}) : super(key: key);
 
+  final Color? color;
 
+  @override
+  Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
+
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: _height * 0.02),
+      child: Container(
+        width: _width * 0.9,
+        height: 1,
+        color: color,
+      ),
+    );
+  }
+}
