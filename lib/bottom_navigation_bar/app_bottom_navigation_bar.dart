@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stopgame_news/bottom_navigation_bar/navigation_button.dart';
-import 'package:stopgame_news/theme_bloc.dart';
+import 'package:stopgame_news/theme/theme_bloc.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
   const AppBottomNavigationBar({Key? key}) : super(key: key);

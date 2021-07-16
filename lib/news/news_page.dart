@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:stopgame_news/constants.dart';
+import 'package:stopgame_news/error/error_page.dart';
+import 'package:stopgame_news/news/bloc/news_bloc.dart';
 
 class NewsPage extends StatelessWidget {
   const NewsPage({Key? key}) : super(key: key);
@@ -8,9 +12,52 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: ListView(
-        children: List<Widget>.filled(9, const _ItemSkeleton())
-      ),
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<NewsBLoC>().add(NewsEvent.refresh());
+          //TODO: Синхронизировать индикатор с состоянием BLoC`а
+          await Future<void>.delayed(Duration(seconds: 1));
+        },
+        backgroundColor: redStopgameColor,
+        color: Colors.white,
+        displacement: 32,
+        child: ListView(
+          children: [
+            BlocBuilder<NewsBLoC, NewsState>(
+              builder: (context, state) {
+                if (state is InitialNewsState) {
+                  //TODO: Это выглядит некрасиво (╯°□°）╯︵ ┻━┻
+                  context.read<NewsBLoC>().add(NewsEvent.refresh());
+                  // Это типа пустой виджет
+                  return SizedBox.shrink();
+                }
+                else if (state is FetchingNewsState) return Column(
+                  children: List.filled(10, const _ItemSkeleton()),
+                );
+                else if (state is FetchedNewsState) {
+                  List<Widget> news = [];
+                  state.data.forEach((text) {
+                    news.add(SizedBox(height: 16));
+                    news.add(Text(
+                      text,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18
+                      )
+                    ));
+                  });
+
+                  return Column(
+                    children: news,
+                  );
+                }
+                else if (state is ErrorNewsState) return ErrorPage();
+                else throw Exception('Упс... Этого не должно было произойти');
+              },
+            )
+          ],
+        )
+      )
     );
   }
 }

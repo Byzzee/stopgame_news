@@ -6,8 +6,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:stopgame_news/bottom_navigation_bar/navigation_cubit.dart';
 import 'package:stopgame_news/constants.dart';
 import 'package:stopgame_news/home/home_page.dart';
+import 'package:stopgame_news/news/bloc/news_bloc.dart';
 import 'package:stopgame_news/portrait_mode_mixin.dart';
-import 'package:stopgame_news/theme_bloc.dart';
+import 'package:stopgame_news/theme/theme_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class App extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
+        BlocProvider<NewsBLoC>(create: (context) => NewsBLoC()),
         BlocProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),
         BlocProvider<NavigationCubit>(create: (context) => NavigationCubit())
       ],

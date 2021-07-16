@@ -33,6 +33,7 @@ dependencies:
   hydrated_bloc: ^7.0.1
   path_provider: ^2.0.2
   shimmer: ^2.0.0
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:
