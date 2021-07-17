@@ -159,7 +159,7 @@ class _$NewsStateTearOff {
     return const FetchingNewsState();
   }
 
-  FetchedNewsState fetched(List<String> data) {
+  FetchedNewsState fetched(List<Article> data) {
     return FetchedNewsState(
       data,
     );
@@ -181,7 +181,7 @@ mixin _$NewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<String> data) fetched,
+    required TResult Function(List<Article> data) fetched,
     required TResult Function(String errorMessage) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -189,7 +189,7 @@ mixin _$NewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<String> data)? fetched,
+    TResult Function(List<Article> data)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) =>
@@ -269,7 +269,7 @@ class _$InitialNewsState extends InitialNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<String> data) fetched,
+    required TResult Function(List<Article> data) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return initial();
@@ -280,7 +280,7 @@ class _$InitialNewsState extends InitialNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<String> data)? fetched,
+    TResult Function(List<Article> data)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -364,7 +364,7 @@ class _$FetchingNewsState extends FetchingNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<String> data) fetched,
+    required TResult Function(List<Article> data) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return fetching();
@@ -375,7 +375,7 @@ class _$FetchingNewsState extends FetchingNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<String> data)? fetched,
+    TResult Function(List<Article> data)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -422,7 +422,7 @@ abstract class $FetchedNewsStateCopyWith<$Res> {
   factory $FetchedNewsStateCopyWith(
           FetchedNewsState value, $Res Function(FetchedNewsState) then) =
       _$FetchedNewsStateCopyWithImpl<$Res>;
-  $Res call({List<String> data});
+  $Res call({List<Article> data});
 }
 
 /// @nodoc
@@ -443,7 +443,7 @@ class _$FetchedNewsStateCopyWithImpl<$Res> extends _$NewsStateCopyWithImpl<$Res>
       data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<Article>,
     ));
   }
 }
@@ -454,7 +454,7 @@ class _$FetchedNewsState extends FetchedNewsState {
   const _$FetchedNewsState(this.data) : super._();
 
   @override
-  final List<String> data;
+  final List<Article> data;
 
   @override
   String toString() {
@@ -483,7 +483,7 @@ class _$FetchedNewsState extends FetchedNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<String> data) fetched,
+    required TResult Function(List<Article> data) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return fetched(data);
@@ -494,7 +494,7 @@ class _$FetchedNewsState extends FetchedNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<String> data)? fetched,
+    TResult Function(List<Article> data)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -532,10 +532,10 @@ class _$FetchedNewsState extends FetchedNewsState {
 }
 
 abstract class FetchedNewsState extends NewsState {
-  const factory FetchedNewsState(List<String> data) = _$FetchedNewsState;
+  const factory FetchedNewsState(List<Article> data) = _$FetchedNewsState;
   const FetchedNewsState._() : super._();
 
-  List<String> get data => throw _privateConstructorUsedError;
+  List<Article> get data => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FetchedNewsStateCopyWith<FetchedNewsState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -608,7 +608,7 @@ class _$ErrorNewsState extends ErrorNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<String> data) fetched,
+    required TResult Function(List<Article> data) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return error(errorMessage);
@@ -619,7 +619,7 @@ class _$ErrorNewsState extends ErrorNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<String> data)? fetched,
+    TResult Function(List<Article> data)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {

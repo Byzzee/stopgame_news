@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:stopgame_news/news/repository/stopgame_parser.dart';
 
 part 'news_bloc.freezed.dart';
 
@@ -18,7 +19,7 @@ abstract class NewsState with _$NewsState {
 
   const factory NewsState.initial() = InitialNewsState;
   const factory NewsState.fetching() = FetchingNewsState;
-  const factory NewsState.fetched(List<String> data) = FetchedNewsState;
+  const factory NewsState.fetched(List<Article> data) = FetchedNewsState;
   const factory NewsState.error(String errorMessage) = ErrorNewsState;
 }
 
@@ -31,17 +32,10 @@ class NewsBLoC extends Bloc<NewsEvent, NewsState> {
       refresh: _refresh,
     );
 
-  //TODO: Убрать
-  Future<List<String>> getDataFromFakeRepository() async {
-    await Future<void>.delayed(Duration(seconds: 5)).timeout(Duration(seconds: 10));
-    return ['1 новость', '2 новость', '3 новость'];
-  }
-
   Stream<NewsState> _refresh() async* {
     try {
       yield NewsState.fetching();
-      //TODO: Заменить на настоящий репозиторий
-      List<String> data = await getDataFromFakeRepository();
+      List<Article> data = await getArticles().timeout(Duration(seconds: 20));
       yield NewsState.fetched(data);
     } on TimeoutException {
       yield NewsState.error('Время ожидания запроса вышло');
