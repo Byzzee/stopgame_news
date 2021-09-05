@@ -27,8 +27,10 @@ Future<List<Article>> getArticles() async {
 
     rowArticles.forEach((element) {
       String caption = element.getElementsByClassName('caption caption-bold').single.getElementsByTagName('a').single.innerHtml;
-      String imageUrl = element.getElementsByClassName('image-16x9').single.attributes['src']!;
-      String articleUrl = _stopgameUrl + element.getElementsByClassName('article-image image').single.attributes['href']!;
+      // Удаляем перенос строки (Первые два символа)
+      caption = caption.replaceRange(0, 1, '');
+      String imageUrl = element.getElementsByClassName('image-16x9 p-0').single.attributes['src']!;
+      String articleUrl = _stopgameUrl + element.getElementsByClassName('caption caption-bold').single.getElementsByTagName('a').single.attributes['href']!;
 
       articles.add(Article(caption: caption, imageUrl: imageUrl, articleUrl: articleUrl));
     });
