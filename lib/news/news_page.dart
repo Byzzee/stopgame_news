@@ -94,16 +94,20 @@ class _ArticleItem extends StatelessWidget {
         child: GestureDetector(
           onTap: () async {
             await canLaunch(articleUrl)
-              ? await launch(articleUrl, forceWebView: true)
+              ? await launch(articleUrl, forceWebView: true, enableJavaScript: true)
               : throw 'Could not launch $articleUrl';
           },
           child: Row(
             children: [
               Flexible(
                 flex: 2,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.network(imageUrl)
+                child: Container(
+                  height: double.infinity,
+                  width: double.infinity,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.network(imageUrl)
+                  )
                 )
               ),
               SizedBox(
