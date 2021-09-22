@@ -14,47 +14,50 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: RefreshIndicator(
-            onRefresh: () async {
-              context.read<NewsBLoC>().add(NewsEvent.refresh());
-              //TODO: Синхронизировать индикатор с состоянием BLoC`а
-              await Future<void>.delayed(Duration(seconds: 1));
-            },
-            backgroundColor: redStopgameColor,
-            color: Colors.white,
-            displacement: 32,
-            child: ListView(
-              children: [
-                BlocBuilder<NewsBLoC, NewsState>(
-                  builder: (context, state) {
-                    if (state is InitialNewsState) {
-                      //TODO: Это выглядит некрасиво (╯°□°）╯︵ ┻━┻
-                      context.read<NewsBLoC>().add(NewsEvent.refresh());
-                      // Это типа пустой виджет
-                      return SizedBox.shrink();
-                    } else if (state is FetchingNewsState)
-                      return Column(
-                        children: List.filled(10, const _ArticleSkeleton()),
-                      );
-                    else if (state is FetchedNewsState) {
-                      List<Widget> news = [];
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<NewsBLoC>().add(NewsEvent.refresh());
+          //TODO: Синхронизировать индикатор с состоянием BLoC`а
+          await Future<void>.delayed(Duration(seconds: 1));
+        },
+        backgroundColor: redStopgameColor,
+        color: Colors.white,
+        displacement: 32,
+        child: ListView(
+          children: [
+            BlocBuilder<NewsBLoC, NewsState>(
+              builder: (context, state) {
+                if (state is InitialNewsState) {
+                  //TODO: Это выглядит некрасиво (╯°□°）╯︵ ┻━┻
+                  context.read<NewsBLoC>().add(NewsEvent.refresh());
+                  // Это типа пустой виджет
+                  return SizedBox.shrink();
+                } else if (state is FetchingNewsState)
+                  return Column(
+                    children: List.filled(10, const _ArticleSkeleton()),
+                  );
+                else if (state is FetchedNewsState) {
+                  List<Widget> news = [];
 
-                      state.data.forEach((article) {
-                        news.add(_ArticleItem(
-                            caption: article.caption,
-                            imageUrl: article.imageUrl,
-                            articleUrl: article.articleUrl));
-                      });
+                  state.data.forEach((article) {
+                    news.add(_ArticleItem(
+                      caption: article.caption,
+                      imageUrl: article.imageUrl,
+                      articleUrl: article.articleUrl)
+                    );
+                  });
 
-                      return Column(children: news);
-                    } else if (state is ErrorNewsState)
-                      return ErrorPage();
-                    else
-                      throw Exception('Упс... Этого не должно было произойти');
-                  },
-                )
-              ],
-            )));
+                  return Column(children: news);
+                } else if (state is ErrorNewsState)
+                  return ErrorPage();
+                else
+                  throw Exception('Упс... Этого не должно было произойти');
+              },
+            )
+          ],
+        )
+      )
+    );
   }
 }
 
@@ -96,19 +99,23 @@ class _ArticleItem extends StatelessWidget {
             // Закоментил проверку canLaunch, потому что в API 30 она всегда возвращает false
             await launch(articleUrl, forceWebView: true, enableJavaScript: true);
             /*await canLaunch(articleUrl)
-              ? await launch(articleUrl, forceWebView: true, enableJavaScript: true)
-              : throw 'Could not launch $articleUrl';*/
+            ? await launch(articleUrl, forceWebView: true, enableJavaScript: true)
+            : throw 'Could not launch $articleUrl';*/
           },
           child: Row(
             children: [
               Flexible(
                 flex: 2,
-                child: Container(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(imageUrl)
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Image.network(
+                      imageUrl,
+                      height: 1080,
+                      width: 1920,
+                      fit: BoxFit.contain,
+                    )
                   )
                 )
               ),
@@ -153,82 +160,92 @@ class _ArticleSkeleton extends StatelessWidget {
         child: Row(
           children: [
             Flexible(
-                flex: 2,
-                child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: padding / 3),
-                    child: Shimmer.fromColors(
-                        baseColor: Colors.grey.shade800,
-                        highlightColor: Colors.grey.shade600,
-                        period: Duration(seconds: 2),
-                        child: Container(
-                          height: double.infinity,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.black54,
-                          ),
-                        )))),
+              flex: 2,
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey.shade800,
+                highlightColor: Colors.grey.shade600,
+                period: Duration(seconds: 2),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: Container(
+                      height: 1080,
+                      width: 1920,
+                      color: Colors.black54
+                    )
+                  )
+                )
+              )
+            ),
             SizedBox(
               width: padding,
             ),
             Flexible(
-                flex: 3,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: padding,
-                    ),
-                    Flexible(
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey.shade800,
-                            highlightColor: Colors.grey.shade600,
-                            period: Duration(seconds: 2),
-                            child: Container(
-                              height: double.infinity,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black54,
-                              ),
-                            ))),
-                    SizedBox(
-                      height: padding,
-                    ),
-                    Flexible(
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey.shade800,
-                            highlightColor: Colors.grey.shade600,
-                            period: Duration(seconds: 2),
-                            child: Container(
-                              height: double.infinity,
-                              width: _width * 0.24,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black54,
-                              ),
-                            ))),
-                    SizedBox(
-                      height: padding,
-                    ),
-                    Flexible(
-                        child: Shimmer.fromColors(
-                            baseColor: Colors.grey.shade800,
-                            highlightColor: Colors.grey.shade600,
-                            period: Duration(seconds: 2),
-                            child: Container(
-                              height: double.infinity,
-                              width: _width * 0.2,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black54,
-                              ),
-                            ))),
-                    SizedBox(
-                      height: padding,
-                    ),
-                  ],
-                )),
+              flex: 3,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: padding,
+                  ),
+                  Flexible(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade800,
+                      highlightColor: Colors.grey.shade600,
+                      period: Duration(seconds: 2),
+                      child: Container(
+                        height: double.infinity,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black54,
+                        ),
+                      )
+                    )
+                  ),
+                  SizedBox(
+                    height: padding,
+                  ),
+                  Flexible(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade800,
+                      highlightColor: Colors.grey.shade600,
+                      period: Duration(seconds: 2),
+                      child: Container(
+                        height: double.infinity,
+                        width: _width * 0.24,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black54,
+                        ),
+                      )
+                    )
+                  ),
+                  SizedBox(
+                    height: padding,
+                  ),
+                  Flexible(
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade800,
+                      highlightColor: Colors.grey.shade600,
+                      period: Duration(seconds: 2),
+                      child: Container(
+                        height: double.infinity,
+                        width: _width * 0.2,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.black54,
+                        ),
+                      )
+                    )
+                  ),
+                  SizedBox(
+                    height: padding,
+                  ),
+                ],
+              )
+            ),
           ],
         ),
       ),

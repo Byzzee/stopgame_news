@@ -17,9 +17,9 @@ class HomePage extends StatelessWidget {
       body: BlocBuilder<NavigationCubit, int>(
         builder: (context, state) {
           switch (state) {
-            case 1:
+            case 0:
               return NewsPage();
-            case 2:
+            case 1:
               return SettingsPage();
             default:
               return ErrorPage();
