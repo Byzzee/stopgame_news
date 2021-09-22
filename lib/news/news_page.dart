@@ -93,9 +93,11 @@ class _ArticleItem extends StatelessWidget {
         padding: EdgeInsets.all(padding),
         child: GestureDetector(
           onTap: () async {
-            await canLaunch(articleUrl)
+            // Закоментил проверку canLaunch, потому что в API 30 она всегда возвращает false
+            await launch(articleUrl, forceWebView: true, enableJavaScript: true);
+            /*await canLaunch(articleUrl)
               ? await launch(articleUrl, forceWebView: true, enableJavaScript: true)
-              : throw 'Could not launch $articleUrl';
+              : throw 'Could not launch $articleUrl';*/
           },
           child: Row(
             children: [

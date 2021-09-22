@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:stopgame_news/constants.dart';
 import '../theme/theme_bloc.dart';
 
@@ -38,45 +39,47 @@ class _AppInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Flexible(
-          flex: 1,
-          child: Image(image: AssetImage('assets/logo.png'))
-        ),
-        Flexible(
-          flex: 2,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Stopgame News',
-                style: TextStyle(
-                  color: mainColor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
-                  letterSpacing: 0.8
+    return FutureBuilder<PackageInfo>(
+      future: PackageInfo.fromPlatform(),
+      builder: (context, snapshot) => Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Flexible(
+            flex: 1,
+            child: Image(image: AssetImage('assets/logo.png'))
+          ),
+          Flexible(
+            flex: 2,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  snapshot.hasData ? snapshot.data!.appName : '???',
+                  style: TextStyle(
+                    color: mainColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                    letterSpacing: 0.8
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 8,
-              ),
-              Text(
-                //TODO: Сделать настоящее отображение версии
-                'Версия - 1.0.0',
-                style: TextStyle(
-                  color: mainColor,
-                  fontSize: 16,
-                  letterSpacing: 0.8
+                SizedBox(
+                  height: 8,
                 ),
-              ),
-            ],
+                Text(
+                  'Версия - ' + (snapshot.hasData ? snapshot.data!.version : '???'),
+                  style: TextStyle(
+                    color: mainColor,
+                    fontSize: 16,
+                    letterSpacing: 0.8
+                  ),
+                ),
+              ],
+            )
           )
-        )
-      ],
+        ],
+      ),
     );
   }
 }
