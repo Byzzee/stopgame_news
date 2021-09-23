@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:stopgame_news/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/theme_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -24,7 +26,8 @@ class SettingsPage extends StatelessWidget {
           children: [
             _AppInfo(mainColor: _mainColor),
             _Divider(color: _mainColor),
-            _ThemeSwitch(mainColor: _mainColor)
+            _ThemeSwitch(mainColor: _mainColor),
+            _GitHubLink(mainColor: _mainColor)
           ]
         ),
       ),
@@ -100,6 +103,31 @@ class _ThemeSwitch extends StatelessWidget {
         onChanged: (value) {
           context.read<ThemeBLoC>().add(ThemeEvent.switchTheme());
         },
+      ),
+      mainColor: mainColor,
+    );
+  }
+}
+
+class _GitHubLink extends StatelessWidget {
+  const _GitHubLink({Key? key, @required this.mainColor}) : super(key: key);
+
+  final Color? mainColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return _SettingsItem(
+      icon: FontAwesomeIcons.github,
+      text: 'GitHub',
+      action: IconButton(
+        onPressed: () async {
+          await launch('https://github.com/Byzzee/stopgame_news', forceWebView: true, enableJavaScript: true);
+        },
+        icon: Icon(
+          FontAwesomeIcons.externalLinkAlt,
+          size: 22,
+          color: mainColor,
+        ),
       ),
       mainColor: mainColor,
     );
