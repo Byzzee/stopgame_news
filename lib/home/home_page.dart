@@ -9,16 +9,20 @@ import 'package:stopgame_news/settings/settings_page.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
   final PageController pageViewController = PageController();
+  final ScrollController newsScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: AppBottomNavigationBar(controller: pageViewController),
+      bottomNavigationBar: AppBottomNavigationBar(
+        pageViewController: pageViewController,
+        newsScrollController: newsScrollController,
+      ),
       body: PageView(
         onPageChanged: (index) => context.read<NavigationCubit>().emit(index),
         controller: pageViewController,
         children: [
-          NewsPage(),
+          NewsPage(controller: newsScrollController),
           SettingsPage()
         ]
       )

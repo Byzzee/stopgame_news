@@ -6,17 +6,26 @@ import 'package:stopgame_news/constants.dart';
 import 'navigation_cubit.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
-  AppBottomNavigationBar({Key? key, @required this.controller})
+  AppBottomNavigationBar({Key? key, @required this.pageViewController, @required this.newsScrollController})
       : super(key: key);
-  final PageController? controller;
+  final PageController? pageViewController;
+  final ScrollController? newsScrollController;
 
   @override
   Widget build(BuildContext context) {
    return BottomNavyBar(
       onItemSelected: (index) {
-        context.read<NavigationCubit>().emit(index);
-        controller?.animateToPage(
-          context.read<NavigationCubit>().state,
+        NavigationCubit cubit = context.read<NavigationCubit>();
+        if (cubit.state != index) {
+          cubit.emit(index);
+          pageViewController?.animateToPage(
+            cubit.state,
+            duration: Duration(milliseconds: 250),
+            curve: Curves.linear
+          );
+        }
+        if (cubit.state == 0) newsScrollController?.animateTo(
+          0,
           duration: Duration(milliseconds: 250),
           curve: Curves.linear
         );

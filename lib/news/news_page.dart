@@ -9,7 +9,8 @@ import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class NewsPage extends StatelessWidget {
-  const NewsPage({Key? key}) : super(key: key);
+  NewsPage({Key? key, @required this.controller}) : super(key: key);
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -23,38 +24,37 @@ class NewsPage extends StatelessWidget {
         backgroundColor: redStopgameColor,
         color: Colors.white,
         displacement: 32,
-        child: ListView(
-          children: [
-            BlocBuilder<NewsBLoC, NewsState>(
-              builder: (context, state) {
-                if (state is InitialNewsState) {
-                  //TODO: Это выглядит некрасиво (╯°□°）╯︵ ┻━┻
-                  context.read<NewsBLoC>().add(NewsEvent.refresh());
-                  // Это типа пустой виджет
-                  return SizedBox.shrink();
-                } else if (state is FetchingNewsState)
-                  return Column(
-                    children: List.filled(10, const _ArticleSkeleton()),
+        child: SingleChildScrollView(
+          controller: controller,
+          child: BlocBuilder<NewsBLoC, NewsState>(
+            builder: (context, state) {
+              if (state is InitialNewsState) {
+                //TODO: Это выглядит некрасиво (╯°□°）╯︵ ┻━┻
+                context.read<NewsBLoC>().add(NewsEvent.refresh());
+                // Это типа пустой виджет
+                return SizedBox.shrink();
+              } else if (state is FetchingNewsState)
+                return Column(
+                  children: List.filled(10, const _ArticleSkeleton()),
+                );
+              else if (state is FetchedNewsState) {
+                List<Widget> news = [];
+
+                state.data.forEach((article) {
+                  news.add(_ArticleItem(
+                    caption: article.caption,
+                    imageUrl: article.imageUrl,
+                    articleUrl: article.articleUrl)
                   );
-                else if (state is FetchedNewsState) {
-                  List<Widget> news = [];
+                });
 
-                  state.data.forEach((article) {
-                    news.add(_ArticleItem(
-                      caption: article.caption,
-                      imageUrl: article.imageUrl,
-                      articleUrl: article.articleUrl)
-                    );
-                  });
-
-                  return Column(children: news);
-                } else if (state is ErrorNewsState)
-                  return ErrorPage();
-                else
-                  throw Exception('Упс... Этого не должно было произойти');
-              },
-            )
-          ],
+                return Column(children: news);
+              } else if (state is ErrorNewsState)
+                return ErrorPage();
+              else
+                throw Exception('Упс... Этого не должно было произойти');
+            },
+          )
         )
       )
     );

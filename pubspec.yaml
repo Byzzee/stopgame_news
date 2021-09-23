@@ -37,7 +37,6 @@ dependencies:
   package_info_plus: ^1.0.6
   bottom_navy_bar: ^6.0.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
