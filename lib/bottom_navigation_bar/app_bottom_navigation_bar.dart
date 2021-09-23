@@ -3,16 +3,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stopgame_news/constants.dart';
-
 import 'navigation_cubit.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
-  const AppBottomNavigationBar({Key? key}) : super(key: key);
+  AppBottomNavigationBar({Key? key, @required this.controller})
+      : super(key: key);
+  final PageController? controller;
 
   @override
   Widget build(BuildContext context) {
    return BottomNavyBar(
-      onItemSelected: (index) => context.read<NavigationCubit>().emit(index),
+      onItemSelected: (index) {
+        context.read<NavigationCubit>().emit(index);
+        controller?.animateToPage(
+          context.read<NavigationCubit>().state,
+          duration: Duration(milliseconds: 250),
+          curve: Curves.linear
+        );
+      },
       selectedIndex: context.watch<NavigationCubit>().state,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
