@@ -16,8 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$NewsEventTearOff {
   const _$NewsEventTearOff();
 
-  RefreshNewsEvent refresh() {
-    return const RefreshNewsEvent();
+  RefreshNewsEvent refresh({int? page}) {
+    return RefreshNewsEvent(
+      page: page,
+    );
   }
 }
 
@@ -26,14 +28,16 @@ const $NewsEvent = _$NewsEventTearOff();
 
 /// @nodoc
 mixin _$NewsEvent {
+  int? get page => throw _privateConstructorUsedError;
+
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() refresh,
+    required TResult Function(int? page) refresh,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? refresh,
+    TResult Function(int? page)? refresh,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,12 +52,17 @@ mixin _$NewsEvent {
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $NewsEventCopyWith<NewsEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $NewsEventCopyWith<$Res> {
   factory $NewsEventCopyWith(NewsEvent value, $Res Function(NewsEvent) then) =
       _$NewsEventCopyWithImpl<$Res>;
+  $Res call({int? page});
 }
 
 /// @nodoc
@@ -63,13 +72,28 @@ class _$NewsEventCopyWithImpl<$Res> implements $NewsEventCopyWith<$Res> {
   final NewsEvent _value;
   // ignore: unused_field
   final $Res Function(NewsEvent) _then;
+
+  @override
+  $Res call({
+    Object? page = freezed,
+  }) {
+    return _then(_value.copyWith(
+      page: page == freezed
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
 }
 
 /// @nodoc
-abstract class $RefreshNewsEventCopyWith<$Res> {
+abstract class $RefreshNewsEventCopyWith<$Res>
+    implements $NewsEventCopyWith<$Res> {
   factory $RefreshNewsEventCopyWith(
           RefreshNewsEvent value, $Res Function(RefreshNewsEvent) then) =
       _$RefreshNewsEventCopyWithImpl<$Res>;
+  @override
+  $Res call({int? page});
 }
 
 /// @nodoc
@@ -81,42 +105,66 @@ class _$RefreshNewsEventCopyWithImpl<$Res> extends _$NewsEventCopyWithImpl<$Res>
 
   @override
   RefreshNewsEvent get _value => super._value as RefreshNewsEvent;
+
+  @override
+  $Res call({
+    Object? page = freezed,
+  }) {
+    return _then(RefreshNewsEvent(
+      page: page == freezed
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$RefreshNewsEvent extends RefreshNewsEvent {
-  const _$RefreshNewsEvent() : super._();
+  const _$RefreshNewsEvent({this.page}) : super._();
+
+  @override
+  final int? page;
 
   @override
   String toString() {
-    return 'NewsEvent.refresh()';
+    return 'NewsEvent.refresh(page: $page)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is RefreshNewsEvent);
+    return identical(this, other) ||
+        (other is RefreshNewsEvent &&
+            (identical(other.page, page) ||
+                const DeepCollectionEquality().equals(other.page, page)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(page);
+
+  @JsonKey(ignore: true)
+  @override
+  $RefreshNewsEventCopyWith<RefreshNewsEvent> get copyWith =>
+      _$RefreshNewsEventCopyWithImpl<RefreshNewsEvent>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() refresh,
+    required TResult Function(int? page) refresh,
   }) {
-    return refresh();
+    return refresh(page);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? refresh,
+    TResult Function(int? page)? refresh,
     required TResult orElse(),
   }) {
     if (refresh != null) {
-      return refresh();
+      return refresh(page);
     }
     return orElse();
   }
@@ -143,8 +191,15 @@ class _$RefreshNewsEvent extends RefreshNewsEvent {
 }
 
 abstract class RefreshNewsEvent extends NewsEvent {
-  const factory RefreshNewsEvent() = _$RefreshNewsEvent;
+  const factory RefreshNewsEvent({int? page}) = _$RefreshNewsEvent;
   const RefreshNewsEvent._() : super._();
+
+  @override
+  int? get page => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  $RefreshNewsEventCopyWith<RefreshNewsEvent> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -159,9 +214,10 @@ class _$NewsStateTearOff {
     return const FetchingNewsState();
   }
 
-  FetchedNewsState fetched(List<Article> data) {
+  FetchedNewsState fetched(List<Article> data, int selectedPage) {
     return FetchedNewsState(
       data,
+      selectedPage,
     );
   }
 
@@ -181,7 +237,7 @@ mixin _$NewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Article> data) fetched,
+    required TResult Function(List<Article> data, int selectedPage) fetched,
     required TResult Function(String errorMessage) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -189,7 +245,7 @@ mixin _$NewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Article> data)? fetched,
+    TResult Function(List<Article> data, int selectedPage)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) =>
@@ -269,7 +325,7 @@ class _$InitialNewsState extends InitialNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Article> data) fetched,
+    required TResult Function(List<Article> data, int selectedPage) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return initial();
@@ -280,7 +336,7 @@ class _$InitialNewsState extends InitialNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Article> data)? fetched,
+    TResult Function(List<Article> data, int selectedPage)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -364,7 +420,7 @@ class _$FetchingNewsState extends FetchingNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Article> data) fetched,
+    required TResult Function(List<Article> data, int selectedPage) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return fetching();
@@ -375,7 +431,7 @@ class _$FetchingNewsState extends FetchingNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Article> data)? fetched,
+    TResult Function(List<Article> data, int selectedPage)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
@@ -422,7 +478,7 @@ abstract class $FetchedNewsStateCopyWith<$Res> {
   factory $FetchedNewsStateCopyWith(
           FetchedNewsState value, $Res Function(FetchedNewsState) then) =
       _$FetchedNewsStateCopyWithImpl<$Res>;
-  $Res call({List<Article> data});
+  $Res call({List<Article> data, int selectedPage});
 }
 
 /// @nodoc
@@ -438,12 +494,17 @@ class _$FetchedNewsStateCopyWithImpl<$Res> extends _$NewsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? data = freezed,
+    Object? selectedPage = freezed,
   }) {
     return _then(FetchedNewsState(
       data == freezed
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<Article>,
+      selectedPage == freezed
+          ? _value.selectedPage
+          : selectedPage // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -451,14 +512,16 @@ class _$FetchedNewsStateCopyWithImpl<$Res> extends _$NewsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FetchedNewsState extends FetchedNewsState {
-  const _$FetchedNewsState(this.data) : super._();
+  const _$FetchedNewsState(this.data, this.selectedPage) : super._();
 
   @override
   final List<Article> data;
+  @override
+  final int selectedPage;
 
   @override
   String toString() {
-    return 'NewsState.fetched(data: $data)';
+    return 'NewsState.fetched(data: $data, selectedPage: $selectedPage)';
   }
 
   @override
@@ -466,12 +529,17 @@ class _$FetchedNewsState extends FetchedNewsState {
     return identical(this, other) ||
         (other is FetchedNewsState &&
             (identical(other.data, data) ||
-                const DeepCollectionEquality().equals(other.data, data)));
+                const DeepCollectionEquality().equals(other.data, data)) &&
+            (identical(other.selectedPage, selectedPage) ||
+                const DeepCollectionEquality()
+                    .equals(other.selectedPage, selectedPage)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(data);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(data) ^
+      const DeepCollectionEquality().hash(selectedPage);
 
   @JsonKey(ignore: true)
   @override
@@ -483,10 +551,10 @@ class _$FetchedNewsState extends FetchedNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Article> data) fetched,
+    required TResult Function(List<Article> data, int selectedPage) fetched,
     required TResult Function(String errorMessage) error,
   }) {
-    return fetched(data);
+    return fetched(data, selectedPage);
   }
 
   @override
@@ -494,12 +562,12 @@ class _$FetchedNewsState extends FetchedNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Article> data)? fetched,
+    TResult Function(List<Article> data, int selectedPage)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {
     if (fetched != null) {
-      return fetched(data);
+      return fetched(data, selectedPage);
     }
     return orElse();
   }
@@ -532,10 +600,12 @@ class _$FetchedNewsState extends FetchedNewsState {
 }
 
 abstract class FetchedNewsState extends NewsState {
-  const factory FetchedNewsState(List<Article> data) = _$FetchedNewsState;
+  const factory FetchedNewsState(List<Article> data, int selectedPage) =
+      _$FetchedNewsState;
   const FetchedNewsState._() : super._();
 
   List<Article> get data => throw _privateConstructorUsedError;
+  int get selectedPage => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $FetchedNewsStateCopyWith<FetchedNewsState> get copyWith =>
       throw _privateConstructorUsedError;
@@ -608,7 +678,7 @@ class _$ErrorNewsState extends ErrorNewsState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() fetching,
-    required TResult Function(List<Article> data) fetched,
+    required TResult Function(List<Article> data, int selectedPage) fetched,
     required TResult Function(String errorMessage) error,
   }) {
     return error(errorMessage);
@@ -619,7 +689,7 @@ class _$ErrorNewsState extends ErrorNewsState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? fetching,
-    TResult Function(List<Article> data)? fetched,
+    TResult Function(List<Article> data, int selectedPage)? fetched,
     TResult Function(String errorMessage)? error,
     required TResult orElse(),
   }) {

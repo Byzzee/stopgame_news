@@ -10,7 +10,7 @@ part 'news_bloc.freezed.dart';
 abstract class NewsEvent with _$NewsEvent {
   const NewsEvent._();
 
-  const factory NewsEvent.refresh() = RefreshNewsEvent;
+  const factory NewsEvent.refresh({int? page}) = RefreshNewsEvent;
 }
 
 @freezed
@@ -19,12 +19,14 @@ abstract class NewsState with _$NewsState {
 
   const factory NewsState.initial() = InitialNewsState;
   const factory NewsState.fetching() = FetchingNewsState;
-  const factory NewsState.fetched(List<Article> data) = FetchedNewsState;
+  const factory NewsState.fetched(List<Article> data, int selectedPage) = FetchedNewsState;
   const factory NewsState.error(String errorMessage) = ErrorNewsState;
 }
 
 class NewsBLoC extends Bloc<NewsEvent, NewsState> {
-  NewsBLoC() : super(const InitialNewsState());
+  NewsBLoC() : selectedPage = 1, super(const InitialNewsState());
+
+  int selectedPage;
 
   @override
   Stream<NewsState> mapEventToState(NewsEvent event) =>
@@ -32,11 +34,13 @@ class NewsBLoC extends Bloc<NewsEvent, NewsState> {
       refresh: _refresh,
     );
 
-  Stream<NewsState> _refresh() async* {
+  Stream<NewsState> _refresh(int? page) async* {
+    if (page != null) selectedPage = page;
+
     try {
       yield NewsState.fetching();
-      List<Article> data = await getArticles().timeout(Duration(seconds: 20));
-      yield NewsState.fetched(data);
+      List<Article> data = await getArticlesByPage(page: selectedPage).timeout(Duration(seconds: 20));
+      yield NewsState.fetched(data, selectedPage);
     } on TimeoutException {
       yield NewsState.error('Время ожидания запроса вышло');
     } on dynamic catch(e) {

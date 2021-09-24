@@ -17,8 +17,8 @@ class Article {
 const String _stopgameUrl = 'https://stopgame.ru';
 const String _stopgameNewsUrl = _stopgameUrl + '/news';
 
-Future<List<Article>> getArticles() async {
-  final response = await http.Client().get(Uri.parse(_stopgameNewsUrl));
+Future<List<Article>> getArticlesByPage({@required int? page}) async {
+  final response = await http.Client().get(Uri.parse(_stopgameNewsUrl + '/all/p${page.toString()}'));
 
   if (response.statusCode == 200) {
     var document = parse(response.body);
