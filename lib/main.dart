@@ -8,6 +8,7 @@ import 'package:stopgame_news/constants.dart';
 import 'package:stopgame_news/home/home_page.dart';
 import 'package:stopgame_news/news/bloc/news_bloc.dart';
 import 'package:stopgame_news/portrait_mode_mixin.dart';
+import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:stopgame_news/videos/bloc/videos_bloc.dart';
 
@@ -30,6 +31,7 @@ class App extends StatelessWidget {
         BlocProvider<NewsBLoC>(create: (context) => NewsBLoC()),
         BlocProvider<VideosBLoC>(create: (context) => VideosBLoC()),
         BlocProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),
+        BlocProvider<SettingsBLoC>(create: (context) => SettingsBLoC()),
         BlocProvider<NavigationCubit>(create: (context) => NavigationCubit())
       ],
       child: BlocBuilder<ThemeBLoC, ThemeState>(

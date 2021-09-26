@@ -6,6 +6,7 @@ import 'package:stopgame_news/constants.dart';
 import 'package:stopgame_news/error/error_page.dart';
 import 'package:stopgame_news/home/page_selector.dart';
 import 'package:stopgame_news/news/bloc/news_bloc.dart';
+import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -51,10 +52,8 @@ class NewsPage extends StatelessWidget {
                     articleUrl: article.articleUrl)
                   );
                 });
-                // Insert - это задел на возможность...
-                // TODO: Выбор положения селектора (внизу/вверху страницы)
                 news.insert(
-                  news.length,
+                  context.watch<SettingsBLoC>().state.pageSelectorIsOnTop ? 0 : news.length,
                   PageSelector(
                     selectedPage: state.selectedPage,
                     onSelect: (pageNumber) {

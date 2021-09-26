@@ -37,6 +37,7 @@ dependencies:
   package_info_plus: ^1.0.6
   bottom_navy_bar: ^6.0.0
   font_awesome_flutter: ^9.1.0
+  copy_with_extension: ^2.0.2
 
 dev_dependencies:
   flutter_test:

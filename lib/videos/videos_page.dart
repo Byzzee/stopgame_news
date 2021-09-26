@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:stopgame_news/error/error_page.dart';
 import 'package:stopgame_news/home/page_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:stopgame_news/videos/repository/videos_parser.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -53,10 +54,8 @@ class VideosPage extends StatelessWidget {
                     category: video.category
                   ));
                 });
-                // Insert - это задел на возможность...
-                // TODO: Выбор положения селектора (внизу/вверху страницы)
                 videos.insert(
-                  videos.length,
+                  context.watch<SettingsBLoC>().state.pageSelectorIsOnTop ? 0 : videos.length,
                   PageSelector(
                     selectedPage: state.selectedPage,
                     onSelect: (pageNumber) {
@@ -160,7 +159,7 @@ class _VideoSkeleton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 16,
+                        height: 18,
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
@@ -171,7 +170,7 @@ class _VideoSkeleton extends StatelessWidget {
                         height: 6,
                       ),
                       Container(
-                        height: 16,
+                        height: 18,
                         width: MediaQuery.of(context).size.width * 0.75,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),

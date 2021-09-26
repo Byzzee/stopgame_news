@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:stopgame_news/constants.dart';
+import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/theme_bloc.dart';
 
@@ -26,8 +27,9 @@ class SettingsPage extends StatelessWidget {
           children: [
             _AppInfo(mainColor: _mainColor),
             _Divider(color: _mainColor),
+            _GitHubLink(mainColor: _mainColor),
             _ThemeSwitch(mainColor: _mainColor),
-            _GitHubLink(mainColor: _mainColor)
+            _PageSelectorPositionSwitch(mainColor: _mainColor),
           ]
         ),
       ),
@@ -87,10 +89,11 @@ class _AppInfo extends StatelessWidget {
   }
 }
 
-class _ThemeSwitch extends StatelessWidget {
-  const _ThemeSwitch({Key? key, @required this.mainColor}) : super(key: key);
 
-  final Color? mainColor;
+class _ThemeSwitch extends StatelessWidget {
+  const _ThemeSwitch({Key? key, required this.mainColor}) : super(key: key);
+
+  final Color mainColor;
 
   @override
   Widget build(BuildContext context) {
@@ -109,10 +112,34 @@ class _ThemeSwitch extends StatelessWidget {
   }
 }
 
-class _GitHubLink extends StatelessWidget {
-  const _GitHubLink({Key? key, @required this.mainColor}) : super(key: key);
 
-  final Color? mainColor;
+class _PageSelectorPositionSwitch extends StatelessWidget {
+  const _PageSelectorPositionSwitch({Key? key, required this.mainColor}) : super(key: key);
+
+  final Color mainColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return _SettingsItem(
+      icon: FontAwesomeIcons.sort,
+      text: 'Выбор страницы сверху',
+      action: Switch(
+        value: context.watch<SettingsBLoC>().state.pageSelectorIsOnTop,
+        activeColor: redStopgameColor,
+        onChanged: (value) {
+          context.read<SettingsBLoC>().add(SettingsEvent.switchPageSelectorPosition());
+        },
+      ),
+      mainColor: mainColor,
+    );
+  }
+}
+
+
+class _GitHubLink extends StatelessWidget {
+  const _GitHubLink({Key? key, required this.mainColor}) : super(key: key);
+
+  final Color mainColor;
 
   @override
   Widget build(BuildContext context) {
@@ -134,14 +161,15 @@ class _GitHubLink extends StatelessWidget {
   }
 }
 
-class _SettingsItem extends StatelessWidget {
-  const _SettingsItem({Key? key, @required this.icon, @required this.text, @required this.action,
-    @required this.mainColor}) : super(key: key);
 
-  final IconData? icon;
-  final String? text;
-  final Widget? action;
-  final Color? mainColor;
+class _SettingsItem extends StatelessWidget {
+  const _SettingsItem({Key? key, required this.icon, required this.text, required this.action,
+    required this.mainColor}) : super(key: key);
+
+  final IconData icon;
+  final String text;
+  final Widget action;
+  final Color mainColor;
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +181,7 @@ class _SettingsItem extends StatelessWidget {
           color: mainColor,
         ),
         Text(
-          text ?? '',
+          text,
           style: TextStyle(
             color: mainColor,
             fontWeight: FontWeight.w500,
@@ -161,16 +189,17 @@ class _SettingsItem extends StatelessWidget {
             letterSpacing: 0.8
           ),
         ),
-        action ?? SizedBox(width: 1, height: 1)
+        action
       ]
     );
   }
 }
 
-class _Divider extends StatelessWidget {
-  const _Divider({Key? key, @required this.color}) : super(key: key);
 
-  final Color? color;
+class _Divider extends StatelessWidget {
+  const _Divider({Key? key, required this.color}) : super(key: key);
+
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
