@@ -121,7 +121,7 @@ class _GitHubLink extends StatelessWidget {
       text: 'GitHub',
       action: IconButton(
         onPressed: () async {
-          await launch('https://github.com/Byzzee/stopgame_news', forceWebView: true, enableJavaScript: true);
+          await launch('https://github.com/Byzzee/stopgame_news');
         },
         icon: Icon(
           FontAwesomeIcons.externalLinkAlt,

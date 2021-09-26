@@ -4,10 +4,7 @@ import 'package:http/http.dart' as http;
 
  @immutable
 class Article {
-  const Article({@required String? caption, @required String? imageUrl, @required String? articleUrl})
-    : this.caption = caption ?? '???',
-      this.imageUrl = imageUrl ?? '???',
-      this.articleUrl = articleUrl ?? '???';
+  const Article({required this.caption, required this.imageUrl, required this.articleUrl});
 
   final String caption;
   final String imageUrl;

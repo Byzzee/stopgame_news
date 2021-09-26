@@ -2,14 +2,15 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:stopgame_news/constants.dart';
 import 'navigation_cubit.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
-  AppBottomNavigationBar({Key? key, @required this.pageViewController, @required this.newsScrollController})
+  AppBottomNavigationBar({Key? key, required this.pageViewController, required this.scrollController})
       : super(key: key);
-  final PageController? pageViewController;
-  final ScrollController? newsScrollController;
+  final PageController pageViewController;
+  final ScrollController scrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +19,14 @@ class AppBottomNavigationBar extends StatelessWidget {
         NavigationCubit cubit = context.read<NavigationCubit>();
         if (cubit.state != index) {
           cubit.emit(index);
-          pageViewController?.animateToPage(
+          pageViewController.animateToPage(
             cubit.state,
             duration: Duration(milliseconds: 250),
             curve: Curves.linear
           );
         }
-        if (cubit.state == 0) newsScrollController?.animateTo(
+        // TODO: Scroll-to-top на всех страницах
+        else scrollController.animateTo(
           0,
           duration: Duration(milliseconds: 250),
           curve: Curves.linear
@@ -42,6 +44,18 @@ class AppBottomNavigationBar extends StatelessWidget {
           activeColor: redStopgameColor,
           textAlign: TextAlign.center
         ),
+        BottomNavyBarItem(
+          icon: Icon(FontAwesomeIcons.youtube),
+          title: Text('Видео'),
+          activeColor: redStopgameColor,
+          textAlign: TextAlign.center
+        ),
+        /*BottomNavyBarItem(
+          icon: Icon(FontAwesomeIcons.twitch),
+          title: Text('Стримы'),
+          activeColor: redStopgameColor,
+          textAlign: TextAlign.center
+        ),*/
         BottomNavyBarItem(
           icon: Icon(CupertinoIcons.gear_solid),
           title: Text('Настройки'),

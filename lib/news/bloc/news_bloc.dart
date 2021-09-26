@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:stopgame_news/news/repository/stopgame_parser.dart';
+import 'package:stopgame_news/news/repository/news_parser.dart';
 
 part 'news_bloc.freezed.dart';
 
