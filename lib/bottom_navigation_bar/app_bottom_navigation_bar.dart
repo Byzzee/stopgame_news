@@ -36,10 +36,16 @@ class AppBottomNavigationBar extends StatelessWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       containerHeight: 60,
-      iconSize: 30,
+      iconSize: 24,
       items: <BottomNavyBarItem>[
         BottomNavyBarItem(
-          icon: Icon(CupertinoIcons.news_solid),
+          icon: Icon(FontAwesomeIcons.bookOpen),
+          title: Text('Статьи'),
+          activeColor: redStopgameColor,
+          textAlign: TextAlign.center
+        ),
+        BottomNavyBarItem(
+          icon: Icon(FontAwesomeIcons.solidNewspaper),
           title: Text('Новости'),
           activeColor: redStopgameColor,
           textAlign: TextAlign.center
@@ -57,7 +63,7 @@ class AppBottomNavigationBar extends StatelessWidget {
           textAlign: TextAlign.center
         ),*/
         BottomNavyBarItem(
-          icon: Icon(CupertinoIcons.gear_solid),
+          icon: Icon(FontAwesomeIcons.cog),
           title: Text('Настройки'),
           activeColor: redStopgameColor,
           textAlign: TextAlign.center

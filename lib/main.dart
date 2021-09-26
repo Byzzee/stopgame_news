@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:stopgame_news/bottom_navigation_bar/navigation_cubit.dart';
 import 'package:stopgame_news/constants.dart';
 import 'package:stopgame_news/home/home_page.dart';
+import 'package:stopgame_news/matters/bloc/matters_bloc.dart';
 import 'package:stopgame_news/news/bloc/news_bloc.dart';
 import 'package:stopgame_news/portrait_mode_mixin.dart';
 import 'package:stopgame_news/settings/settings_bloc.dart';
@@ -30,6 +31,7 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider<NewsBLoC>(create: (context) => NewsBLoC()),
         BlocProvider<VideosBLoC>(create: (context) => VideosBLoC()),
+        BlocProvider<MattersBLoC>(create: (context) => MattersBLoC()),
         BlocProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),
         BlocProvider<SettingsBLoC>(create: (context) => SettingsBLoC()),
         BlocProvider<NavigationCubit>(create: (context) => NavigationCubit())
@@ -45,7 +47,7 @@ class App extends StatelessWidget {
             title: 'Stopgame News',
             debugShowCheckedModeBanner: false,
             theme: actualTheme,
-            home: HomePage(),
+            home: HomePage(initialPageNumber: context.read<NavigationCubit>().state),
           );
         }
       )
