@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:stopgame_news/error/error_page.dart';
 import 'package:stopgame_news/home/page_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stopgame_news/main.dart';
 import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:stopgame_news/videos/repository/videos_parser.dart';
@@ -223,6 +224,10 @@ class _VideoItem extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(padding),
         child: GestureDetector(
+          onLongPress: () async {
+            String? youtubeUrl = await getVideoYoutubeUrl(videoStopgameUrl: videoUrl);
+            copyToClipboard(context, youtubeUrl ?? videoUrl);
+          },
           onTap: () async {
             String? youtubeUrl = await getVideoYoutubeUrl(videoStopgameUrl: videoUrl);
             await launch(youtubeUrl ?? videoUrl);

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:l/l.dart';
 import 'package:path_provider/path_provider.dart';
@@ -12,6 +14,8 @@ import 'package:stopgame_news/portrait_mode_mixin.dart';
 import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:stopgame_news/videos/bloc/videos_bloc.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,4 +89,26 @@ class AppBlocObserver extends BlocObserver {
     l.s(bloc);
     super.onClose(bloc);
   }
+}
+
+
+void copyToClipboard(BuildContext context, String data) {
+  Clipboard.setData(ClipboardData(text: data));
+  showTopSnackBar(
+      context,
+      CustomSnackBar.success(
+        icon: const Icon(
+          FontAwesomeIcons.clipboardCheck,
+          color: Colors.black38,
+          size: 112
+        ),
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          fontSize: 20
+        ),
+        backgroundColor: redStopgameColor,
+        message: 'Скопировано в буфер обмена'
+      )
+  );
 }

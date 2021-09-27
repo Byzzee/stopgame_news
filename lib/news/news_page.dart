@@ -5,6 +5,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:stopgame_news/constants.dart';
 import 'package:stopgame_news/error/error_page.dart';
 import 'package:stopgame_news/home/page_selector.dart';
+import 'package:stopgame_news/main.dart';
 import 'package:stopgame_news/news/bloc/news_bloc.dart';
 import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
@@ -102,6 +103,7 @@ class _ArticleItem extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(padding),
         child: GestureDetector(
+          onLongPress: () => copyToClipboard(context, articleUrl),
           onTap: () async {
             // Закоментил проверку canLaunch, потому что в API 30 она всегда возвращает false
             await launch(articleUrl, forceWebView: true, enableJavaScript: true);

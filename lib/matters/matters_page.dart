@@ -4,6 +4,7 @@ import 'package:shimmer/shimmer.dart';
 import 'package:stopgame_news/error/error_page.dart';
 import 'package:stopgame_news/home/page_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:stopgame_news/main.dart';
 import 'package:stopgame_news/settings/settings_bloc.dart';
 import 'package:stopgame_news/theme/theme_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -222,6 +223,7 @@ class _MatterItem extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.all(padding),
         child: GestureDetector(
+          onLongPress: () => copyToClipboard(context, matterUrl),
           onTap: () async {
             await launch(matterUrl, forceWebView: true, enableJavaScript: true);
           },
